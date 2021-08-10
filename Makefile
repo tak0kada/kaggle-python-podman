@@ -15,14 +15,13 @@ up:
 	           -v `xauth info | awk 'NR<=1{print $$3}'`:/root/.Xauthority \
 		   --memory 2G \
 	           -v $${HOME}:$${HOME} \
-	           -w $${PWD} \
 	           --name tmp-tak0kada-kaggle-python \
 	           -dt --rm tak0kada/kaggle-python
 
 
 .PHONY: login
 login:
-	podman exec -it tmp-tak0kada-kaggle-python /bin/bash
+	podman exec -it -w $${PWD} tmp-tak0kada-kaggle-python /bin/bash
 
 
 .PHONY: down
