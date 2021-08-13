@@ -8,6 +8,17 @@ install:
 	podman build . -t tak0kada/kaggle-python
 
 
+.PHONY: run
+run:
+	podman run -e DISPLAY=$$DISPLAY \
+	           -v /tmp/.X11-unix:/tmp/.X11-unix \
+	           -v `xauth info | awk 'NR<=1{print $$3}'`:/root/.Xauthority \
+		   --memory 2G \
+	           -v $${HOME}:$${HOME} \
+		   --init \
+	           -it --rm tak0kada/kaggle-python /bin/bash
+
+
 .PHONY: up
 up:
 	podman run -e DISPLAY=$$DISPLAY \
@@ -33,4 +44,3 @@ down:
 .PHONY: clean
 clean:
 	podman image rm tak0kada/kaggle-python
-
